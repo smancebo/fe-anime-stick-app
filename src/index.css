@@ -1,0 +1,24 @@
+body {
+    background-color: #3d3e3f !important;
+}
+
+.found-result {
+    display: inline-block;
+    color: white;
+    max-width: 190px;
+    text-align: center;
+}
+
+.found-result p {
+    margin-top: 10px
+}
+
+.found-result img {
+    width: 190px;
+    height: 230px;
+    background-color: #222
+}
+
+.found-result .wrapper {
+    background-color: #222
+}

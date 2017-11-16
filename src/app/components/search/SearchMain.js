@@ -29,7 +29,7 @@ export default class SearchMain extends React.Component
             <div>
                 <Search onSubmit={this.onSearchSubmit} loading={loading} />
                 <br/>
-                <SearchResults results={searchResults} />
+                <SearchResults results={searchResults} loading={loading} />
             </div>
         )
     }

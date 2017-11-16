@@ -10,15 +10,39 @@ body {
 }
 
 .found-result p {
-    margin-top: 10px
+    margin-top: 10px;
+    transition: all 100ms ease-out
+}
+.found-result a:focus {
+    outline: none !important;
+    
 }
 
 .found-result img {
     width: 190px;
     height: 230px;
-    background-color: #222
+    background-color: #222;
+    transition: all 100ms ease-out
 }
+
+.focus-wrap:focus img {
+   transform: scale(1.1, 1.1);
+   box-shadow: 0px 10px 10px #222
+}
+
+.focus-wrap:focus p {
+    margin-top: 25px
+}
+
+
+
 
 .found-result .wrapper {
     background-color: #222
 }
+
+.found-result a {
+    color: white !important
+}
+
+

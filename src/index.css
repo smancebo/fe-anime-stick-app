@@ -6,6 +6,7 @@ body {
     display: inline-block;
     color: white;
     max-width: 190px;
+    min-height: 330px;
     text-align: center;
 }
 
@@ -45,4 +46,33 @@ body {
     color: white !important
 }
 
+.results {
+    padding-top: 10px
+}
+
+.episode-list-container {
+    background-color: #1b1c1d;
+    border-radius: 10px;
+    padding: 20px;
+    max-height: 500px
+}
+
+.episode {
+    padding: 2px;
+    background-color: #3d3e3f;
+    color: white;
+    border-radius: 5px;
+    display: block;
+    transition: all 100ms ease-out;
+}
+
+.episode-link:focus .episode {
+    transform: scale(1.1,1.1);
+    box-shadow: 0px 0px 20px #000
+}
+
+
+.episode-link:focus  {
+    outline: none 
+}
 

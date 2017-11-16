@@ -5,8 +5,7 @@ import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 import Main from './app/main'
-import Cookies from 'universal-cookie';
-console.log(Cookies);
+
 
 class App extends React.Component {
     render() {

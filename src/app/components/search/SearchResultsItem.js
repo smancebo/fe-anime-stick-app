@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Image } from 'semantic-ui-react';
 import config from '../../config/config';
-import {withRouter} from 'react-router';
+// import {withRouter} from 'react-router';
 
 class SearchResultItem extends React.Component {
 
@@ -12,13 +12,8 @@ class SearchResultItem extends React.Component {
     }
 
     handleClick(e) {
-        const {history, image, title, link} = this.props;
-
-        history.push('/episodes', {
-            image: `${config.API}/image/${image}`,
-            title,
-            link
-        })
+        const {image, title, link} = this.props;
+        this.props.onItemClick({image, title, link})
         e.preventDefault();
     }
     
@@ -38,5 +33,5 @@ class SearchResultItem extends React.Component {
     }
 }
 
-export default withRouter(SearchResultItem);
+export default (SearchResultItem);
 

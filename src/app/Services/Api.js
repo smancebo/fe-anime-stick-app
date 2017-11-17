@@ -8,4 +8,7 @@ export default class Api {
     static getEpisodes(link) {
         return get(`${config.API}/episodes/${link}`);
     }
+    static getVideo(link) {
+        return get(`${config.API}/view/${link}`);
+    }
 }

@@ -10,7 +10,10 @@ export default class EpisodeList extends React.Component {
         return (
             <Grid>
                 { episodes.map((episode)=> (
-                    <EpisodeListItem key={episode.id}  name={episode.name} link={episode.link}  />
+                    <EpisodeListItem key={episode.id} 
+                        name={episode.name} 
+                        link={episode.link} 
+                        onEpisodeClick={this.props.onEpisodeClick}  />
                 )) }
             </Grid>
         )

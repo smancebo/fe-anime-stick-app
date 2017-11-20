@@ -11,7 +11,7 @@ export default class EpisodeListContainer extends React.Component {
         this.navigate = this.navigate.bind(this);
     }
     componentDidMount() {
-        KeyBoardNavigation.setColumns(8);
+        KeyBoardNavigation.setColumns(4);
         const children = this.elEpisodes.querySelector('.ui.grid').children;
         children[0].querySelector('.episode-link').focus();
         

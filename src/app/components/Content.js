@@ -6,7 +6,7 @@ import EpisodesMain from './episodes/EpisodeMain';
 import ViewEpidodeMain from './viewEpisode/ViewEpidodeMain';
 
 const Content = () => (
-    <Container>
+    <Container >
         <Switch>
             <Route path='/search' component={SearchMain} />
             <Route path='/episodes' component={EpisodesMain} />

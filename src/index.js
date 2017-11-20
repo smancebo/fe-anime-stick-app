@@ -18,6 +18,12 @@ class App extends React.Component {
 }
 
 
+Array.prototype.paginate = function(pageNumber, pageSize){
+    return this.slice((pageNumber - 1) * pageSize, pageNumber * pageSize)
+}
+Array.prototype.pages = function(pageSize){
+    return Math.ceil(this.length / pageSize);
+}
 
 
 //==================

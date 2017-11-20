@@ -1,6 +1,6 @@
 import React from 'react';
 import SearchResultItem from './SearchResultsItem'
-import { Grid } from 'semantic-ui-react';
+import { Grid, Icon } from 'semantic-ui-react';
 import Loading from '../shared/Loading';
 import KeyBoardNavigation from '../shared/KeyBoardNavigation';
 
@@ -45,12 +45,22 @@ export default class SearchResults extends React.Component {
             <div className='results' ref={this.linkElement} onKeyDown={this.navigate} onFocus={this.handleFocus} >
                 <Loading loading={loading} />
                 <Grid>
-                    {results.map((found) => (
-                        <Grid.Column width={4} key={found.id} >
-                            <SearchResultItem onItemClick={this.props.onItemClick} link={found.link}  image={found.image} title={found.title} />
-                        </Grid.Column>
-                    ))}
+                    <Grid.Column width={1}>
+                        <Icon name='chevron left' />
+                    </Grid.Column>
+                    <Grid.Column width={14}>
+                        <Grid>
+                            {results.map((found) => (
+                                <Grid.Column width={4} key={found.id} >
+                                    <SearchResultItem onItemClick={this.props.onItemClick} link={found.link} image={found.image} title={found.title} />
+                                </Grid.Column>
+                            ))}
+                        </Grid>
+                    </Grid.Column>
+                    <Grid.Column width={1}
+                    ></Grid.Column>
                 </Grid>
+                
                 
             </div>
 

@@ -26,6 +26,7 @@ export default class SearchMain extends React.Component {
 
     componentDidMount() {
         this.searchRef.focus();
+        KeyBoardNavigation.setColumns(4);
     }
 
 

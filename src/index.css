@@ -1,5 +1,6 @@
 body {
     background-color: #3d3e3f !important;
+    font-size: 28px !important
 }
 
 .found-result {
@@ -78,3 +79,14 @@ body {
     outline: none 
 }
 
+.episode-video {
+        object-fit: contain;
+    max-height: 100%;
+    max-width: 100%;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    margin: auto;
+}

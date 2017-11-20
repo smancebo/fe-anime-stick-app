@@ -19,7 +19,7 @@ export default class EpisodeListItem extends React.Component {
         const {name, link} = this.props;
        
         return (
-            <Grid.Column width={2} textAlign='center' >
+            <Grid.Column width={4} textAlign='center' >
                 <a href="/episode" className='episode-link' onClick={this.handleClick} >
                     <span className='episode'>{name}</span>
                 </a>

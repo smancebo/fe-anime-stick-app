@@ -3,7 +3,7 @@ import videojs from 'video.js';
 import 'video.js/dist/video-js.min.css';
 import Loading from '../shared/Loading';
 import {Button} from 'semantic-ui-react';
-import FullScreen from 'react-full-screen'
+
 
 export default class Video extends React.Component {
 
@@ -13,8 +13,7 @@ export default class Video extends React.Component {
         this.bindVideo = this.bindVideo.bind(this);
         this.state = {
             loading: true,
-            canPlay: false,
-            isFullScreen: true
+            canPlay: false
         }
     }
 
@@ -46,7 +45,7 @@ export default class Video extends React.Component {
 
     render() {
         const { videoLink } = this.props;
-        const { loading, canPlay, isFullScreen } = this.state;
+        const { loading, canPlay } = this.state;
         return (
 
             <div>

@@ -16,7 +16,7 @@ export default class EpisodeListItem extends React.Component {
         e.preventDefault();
     }
     render() {
-        const {name, link} = this.props;
+        const {name} = this.props;
        
         return (
             <Grid.Column width={4} textAlign='center' >

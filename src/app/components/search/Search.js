@@ -19,6 +19,7 @@ class Search extends React.Component {
     onSubmit(){
         const {searchValue} = this.state;
         this.props.onSubmit(searchValue);
+        this.searchInput.inputRef.blur();
     }
     handleInputChange(e){
         this.setState({

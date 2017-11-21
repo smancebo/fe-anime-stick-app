@@ -90,3 +90,7 @@ body {
     left: 0px;
     margin: auto;
 }
+
+.paginator-button {
+    text-align: center;
+}

@@ -4,7 +4,6 @@ import SearchResults from './SearchResults'
 import Api from '../../Services/Api';
 import config from '../../config/config';
 import KeyBoardNavigation from '../shared/KeyBoardNavigation';
-import { Modal, Icon, Container} from 'semantic-ui-react';
 import Loading from '../shared/Loading';
 
 export default class SearchMain extends React.Component {
@@ -33,11 +32,14 @@ export default class SearchMain extends React.Component {
 
     async onSearchSubmit(text) {
         this.setState({ searchResults: [], loading: true });
-        
-        const {data: searchResults} = await Api.search(text);
 
-        this.setState({ searchResults, loading: false})
-        this.element.querySelector('.focus-wrap').focus();
+        const { data: searchResults } = await Api.search(text);
+
+        this.setState({ searchResults, loading: false })
+        if (searchResults.length > 0) {
+
+            this.element.querySelector('.focus-wrap').focus();
+        }
     }
     linkSearchRef(el) {
         this.searchRef = el;
@@ -73,10 +75,10 @@ export default class SearchMain extends React.Component {
         })
 
     }
-   
+
     render() {
-        
-        const {searchResults, loading} = this.state;
+
+        const { searchResults, loading } = this.state;
         return (
             <div>
                 <Loading open={loading} />

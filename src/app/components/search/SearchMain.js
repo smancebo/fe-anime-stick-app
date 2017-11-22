@@ -5,6 +5,11 @@ import Api from '../../Services/Api';
 import config from '../../config/config';
 import KeyBoardNavigation from '../shared/KeyBoardNavigation';
 import Loading from '../shared/Loading';
+import PaginatorArray from '../shared/PaginatorArray';
+import PaginatorButton from '../shared/PaginatorButton';
+import {Grid} from 'semantic-ui-react';
+
+let state = { searchResults: [], loading: false, currentPage: 1 };
 
 export default class SearchMain extends React.Component {
 
@@ -16,12 +21,13 @@ export default class SearchMain extends React.Component {
         this.searchFocus = this.searchFocus.bind(this);
         this.handleDownKeyPress = this.handleDownKeyPress.bind(this);
         this.handleItemClick = this.handleItemClick.bind(this);
+        this.nextPage = this.nextPage.bind(this);
+        this.prevPage = this.prevPage.bind(this);
+        this.reset = this.reset.bind(this);
+        this.pageSize = 4;
     }
 
-    state = {
-        searchResults: [],
-        loading: false
-    }
+    state = state
 
     componentDidMount() {
         this.searchRef.focus();
@@ -31,14 +37,16 @@ export default class SearchMain extends React.Component {
 
 
     async onSearchSubmit(text) {
-        this.setState({ searchResults: [], loading: true });
+        if (text !== '') {
+            this.setState({ searchResults: [], loading: true });
 
-        const { data: searchResults } = await Api.search(text);
+            const { data: searchResults } = await Api.search(text);
 
-        this.setState({ searchResults, loading: false })
-        if (searchResults.length > 0) {
+            this.setState({ searchResults, loading: false, currentPage: 1 })
+            if (searchResults.length > 0) {
 
-            this.element.querySelector('.focus-wrap').focus();
+                this.element.querySelector('.focus-wrap').focus();
+            }
         }
     }
     linkSearchRef(el) {
@@ -76,15 +84,58 @@ export default class SearchMain extends React.Component {
 
     }
 
+    reset() {
+        if (this.elResults) {
+            if (this.elResults.querySelector('.focus-wrap'))
+                this.elResults.querySelector('.focus-wrap').focus()
+        }
+
+        KeyBoardNavigation.reset();
+
+
+    }
+    nextPage() {
+        const { currentPage, searchResults } = this.state;
+        const pResults = new PaginatorArray(searchResults);
+
+
+        if (currentPage < pResults.getTotalPages(this.pageSize)) {
+            this.setState({ 'currentPage': currentPage + 1 });
+            this.reset();
+        }
+    }
+
+    prevPage() {
+        const { currentPage } = this.state;
+
+        if (currentPage > 0) {
+            this.setState({ 'currentPage': currentPage - 1 });
+            this.reset();
+        }
+    }
+
     render() {
 
-        const { searchResults, loading } = this.state;
+        const { searchResults, loading, currentPage } = this.state;
+        const pResults = new PaginatorArray(searchResults);
+        const totalPages = pResults.getTotalPages(this.pageSize);
         return (
             <div>
                 <Loading open={loading} />
                 <Search onDownKeyPressed={this.handleDownKeyPress} searchRef={this.linkSearchRef} onSubmit={this.onSearchSubmit} loading={loading} />
-                <br />
-                <SearchResults onItemClick={this.handleItemClick} searchFocus={this.searchFocus} parentRef={this.linkElement} results={searchResults} loading={loading} />
+                
+                <Grid className='search-results'>
+                    <Grid.Column width={2} verticalAlign='middle' className='paginator-left'>
+                        <PaginatorButton backward floated='left' onClick={this.prevPage} style={{ 'display': currentPage === 1 ? 'none' : 'block' }} />
+                    </Grid.Column>
+                    <Grid.Column width={12} textAlign='center'>
+                        <SearchResults currentPage={currentPage} pageSize={this.pageSize} onItemClick={this.handleItemClick} searchFocus={this.searchFocus} parentRef={this.linkElement} results={searchResults} loading={loading} />
+                    </Grid.Column>
+                    <Grid.Column width={2} verticalAlign='middle' className='paginator-right'>
+                        {searchResults.length > 0 && <PaginatorButton forward floated='right' onClick={this.nextPage} style={{ 'display': currentPage === totalPages ? 'none' : 'block' }} />}
+                    </Grid.Column>
+                </Grid>
+                
             </div >
         )
     }

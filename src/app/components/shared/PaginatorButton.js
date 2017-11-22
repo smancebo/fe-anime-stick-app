@@ -9,11 +9,11 @@ export default class PaginatorButton extends React.Component {
         this.generateButton = this.generateButton.bind(this);
     }
     generateButton() {
-        const { forward, backward } = this.props;
-
+        const { forward, backward, floated } = this.props;
+        let styles = {'textAlign' : 'center', ...this.props.style};
         const baseButton = (icon) => {
             return (
-                <Button color='black' className='paginator-button' onClick={this.props.onClick} >
+                <Button color='black' floated={floated} size='massive' fluid circular className='paginator-button' onClick={this.props.onClick} style={styles} >
                     <Icon name={icon} />
                 </Button>
             )

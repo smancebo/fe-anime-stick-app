@@ -1,6 +1,6 @@
 
 function PaginatorArray(arr){
-    let inst = new Array().concat(arr);
+    let inst = [].concat(arr);
     inst.__proto__ = PaginatorArray.prototype;
 
     return inst;

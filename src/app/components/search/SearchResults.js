@@ -30,7 +30,7 @@ export default class SearchResults extends React.Component {
     linkElement(el){
         this.elResults = el;
         this.props.parentRef(el);
-        console.log(this.elResults);
+        
     }
 
     navigate(e) {

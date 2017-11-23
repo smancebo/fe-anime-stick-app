@@ -8,7 +8,7 @@ class KeyBoardNavigation extends EventEmitter {
     navigate (children, event, focusSelector) {
 
             const focusChild = (indx) => {
-                children[indx].querySelector(focusSelector).focus();
+                //children[indx].querySelector(focusSelector).focus();
             }
 
             //Right Arrow

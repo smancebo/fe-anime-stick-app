@@ -8,10 +8,11 @@ import Loading from '../shared/Loading';
 import PaginatorArray from '../shared/PaginatorArray';
 import PaginatorButton from '../shared/PaginatorButton';
 import {Grid} from 'semantic-ui-react';
+import CachedComponent from '../shared/CachedComponent'
 
-let state = { searchResults: [], loading: false, currentPage: 1 };
+let state = { searchResults: [], loading: false, currentPage: 1, searchStr: '' };
 
-export default class SearchMain extends React.Component {
+export default class SearchMain extends CachedComponent {
 
     constructor(props) {
         super(props);
@@ -32,9 +33,12 @@ export default class SearchMain extends React.Component {
     componentDidMount() {
         this.searchRef.focus();
         KeyBoardNavigation.setColumns(4);
+        this.restoreCache();
+        this.reset();
     }
 
 
+    
 
     async onSearchSubmit(text) {
         if (text !== '') {
@@ -42,7 +46,8 @@ export default class SearchMain extends React.Component {
 
             const { data: searchResults } = await Api.search(text);
 
-            this.setState({ searchResults, loading: false, currentPage: 1 })
+            this.setState({ searchResults, loading: false, currentPage: 1, searchStr: text })
+            this.saveCache();
             if (searchResults.length > 0) {
 
                 this.element.querySelector('.focus-wrap').focus();
@@ -74,7 +79,7 @@ export default class SearchMain extends React.Component {
         const { data: episodes } = await Api.getEpisodes(link);
 
         this.setState({ loading: false });
-
+        this.saveCache();
         history.push('/episodes', {
             image: `${config.API}/image/${image}`,
             title,
@@ -116,13 +121,13 @@ export default class SearchMain extends React.Component {
 
     render() {
 
-        const { searchResults, loading, currentPage } = this.state;
+        const { searchResults, loading, currentPage, searchStr } = this.state;
         const pResults = new PaginatorArray(searchResults);
         const totalPages = pResults.getTotalPages(this.pageSize);
         return (
             <div>
                 <Loading open={loading} />
-                <Search onDownKeyPressed={this.handleDownKeyPress} searchRef={this.linkSearchRef} onSubmit={this.onSearchSubmit} loading={loading} />
+                <Search searchStr={searchStr} onDownKeyPressed={this.handleDownKeyPress} searchRef={this.linkSearchRef} onSubmit={this.onSearchSubmit} loading={loading} />
                 
                 <Grid className='search-results'>
                     <Grid.Column width={2} verticalAlign='middle' className='paginator-left'>

@@ -4,6 +4,7 @@ import { Input, Container, Icon, Form } from 'semantic-ui-react';
 
 class Search extends React.Component {
 
+    
     constructor(props){
         super(props)
 
@@ -11,7 +12,15 @@ class Search extends React.Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.linkTextRef = this.linkTextRef.bind(this);
+        
     }
+    
+    componentWillReceiveProps(newProps){
+        if(newProps.searchStr !== ''){
+            this.setState({ searchValue : newProps.searchStr})
+        }
+    }
+
     state = {
         searchValue: ''
     }

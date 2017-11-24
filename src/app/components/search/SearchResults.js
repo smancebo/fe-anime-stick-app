@@ -12,7 +12,9 @@ export default class SearchResults extends React.Component {
         this.navigate = this.navigate.bind(this);
         this.linkElement = this.linkElement.bind(this);
         this.searchFocus = this.searchFocus.bind(this);
-
+        this.state = {
+            selected: 0
+        };
         
         
     }
@@ -38,6 +40,9 @@ export default class SearchResults extends React.Component {
                          .querySelector('.ui.grid').children;
 
         KeyBoardNavigation.navigate(children, e, '.focus-wrap');
+        this.setState({
+            "selected": KeyBoardNavigation.index
+        })
  
     }
     searchFocus() {
@@ -46,7 +51,7 @@ export default class SearchResults extends React.Component {
 
     render() {
         const { results, loading, currentPage, pageSize } = this.props;
-    
+        const { selected } = this.state
         const pResults = new PaginatorArray(results);
 
         return (
@@ -57,8 +62,8 @@ export default class SearchResults extends React.Component {
 
                         <Grid.Column width={4} key={found.id} >
                             <div>
-                                {found.focus = (i === 0) ? true : false}
-                                <SearchResultItem onItemClick={this.props.onItemClick} focus={found.focus} link={found.link} image={found.image} title={found.title} />
+                                
+                                <SearchResultItem onItemClick={this.props.onItemClick} selected={i === selected ? true : false} link={found.link} image={found.image} title={found.title} />
                             </div>
                         </Grid.Column>
                     ))}

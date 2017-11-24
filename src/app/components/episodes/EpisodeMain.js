@@ -30,7 +30,18 @@ export default class EpisodeMain extends CachedComponent {
     }
 
     componentDidMount(){
-        this.restoreCache();
+        const {history : {action}} = this.props;
+        const { location: { state: show } } = this.props
+        if(action === 'PUSH') {
+            this.clearCache();
+            KeyBoardNavigation.index = 0;
+        } else {
+            this.restoreCache();
+            const {selectedEpisode} = this.state;
+            KeyBoardNavigation.index = selectedEpisode;
+        }
+        
+        
         
     }
 
@@ -78,7 +89,7 @@ export default class EpisodeMain extends CachedComponent {
 
         if (currentPage < pResults.getTotalPages(this.pageSize)) {
             this.setState({ 'currentPage': currentPage + 1 });
-            this.reset();
+           
         }
     }
 
@@ -87,7 +98,7 @@ export default class EpisodeMain extends CachedComponent {
 
         if (currentPage > 0) {
             this.setState({ 'currentPage': currentPage - 1 });
-            this.reset();
+            
         }
     }
 

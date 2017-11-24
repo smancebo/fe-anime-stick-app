@@ -10,35 +10,52 @@ class SearchResultItem extends React.Component {
         super(props);
         this.handleClick = this.handleClick.bind(this);
         this.handleRef = this.handleRef.bind(this);
+        this.state = {selected: false}
+    }
+
+    componentDidMount(){
+        const {selected} = this.props;
+        this.setState({selected});
+    }
+
+    componentWillReceiveProps(newProps){
+        const {selected} = newProps;
+        this.setState({selected});
     }
 
     handleClick(e) {
-        const {image, title, link} = this.props;
-        this.props.onItemClick({image, title, link})
+        const { image, title, link } = this.props;
+        this.props.onItemClick({ image, title, link })
         e.preventDefault();
     }
     handleRef(el) {
-        const cls = this;
-        setTimeout(() => {
-            if (el && cls.props.focus) {
-                el.focus()
-            }
-        },600)
-       
+       if(el){
+           this.showLink = el
+       }
     }
-    
+
     render() {
 
-       return (
-           <div className='found-result' >
-               <a href="/search" className='focus-wrap' ref={this.handleRef} onClick={this.handleClick}  >
+        const { selected } = this.state;
+        let { title } = this.props;
+        title = title || "";
+
+        if (this.showLink && selected) {
+            setTimeout(() => {
+                this.showLink.focus();
+            }, 0)
+        }
+
+        return (
+            <div className='found-result' >
+                <a href="/search" className='focus-wrap' ref={this.handleRef} onClick={this.handleClick}  >
                     <div className='wrapper'>
-                       <Image src={`${config.API}/image/${this.props.image}`} rounded />
+                        <Image src={`${config.API}/image/${this.props.image}`} rounded />
                     </div>
-                   <p title={this.props.title}>{this.props.title.substring(0,30)}</p>
+                    <p title={title}>{title.substring(0, 30)}</p>
                 </a>
-           </div>
-       )
+            </div>
+        )
 
     }
 }

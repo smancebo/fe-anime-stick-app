@@ -20,4 +20,8 @@ export default class CachedComponent extends React.Component
             if(this.onCacheRestored) this.onCacheRestored(cache);
         }
     }
+    clearCache(){
+        const name = this.constructor.name;
+        sessionStorage.removeItem(name);
+    }
 }

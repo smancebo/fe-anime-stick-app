@@ -29,7 +29,7 @@ export default class EpisodeListItem extends React.Component {
         }
     }
     componentWillReceiveProps(newProps){
-        console.log(newProps);
+        
         this.setState({selected: newProps.selected})
         
     }

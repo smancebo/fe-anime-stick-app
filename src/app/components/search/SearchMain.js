@@ -84,18 +84,19 @@ export default class SearchMain extends CachedComponent {
             image: `${config.API}/image/${image}`,
             title,
             link,
-            episodes
+            episodes,
+            clear: true
         })
 
     }
 
     reset() {
-        if (this.elResults) {
-            if (this.elResults.querySelector('.focus-wrap'))
-                this.elResults.querySelector('.focus-wrap').focus()
-        }
+        // if (this.elResults) {
+        //     if (this.elResults.querySelector('.focus-wrap'))
+        //         this.elResults.querySelector('.focus-wrap').focus()
+        // }
 
-        KeyBoardNavigation.reset();
+        // KeyBoardNavigation.reset();
 
 
     }

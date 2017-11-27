@@ -9,6 +9,8 @@ import PaginatorArray from '../shared/PaginatorArray';
 import PaginatorButton from '../shared/PaginatorButton';
 import {Grid} from 'semantic-ui-react';
 import CachedComponent from '../shared/CachedComponent'
+import Paginator from '../shared/Paginator'
+import SearchResultsItem from './SearchResultsItem';
 
 let state = { searchResults: [], loading: false, currentPage: 1, searchStr: '' };
 
@@ -50,7 +52,7 @@ export default class SearchMain extends CachedComponent {
             this.saveCache();
             if (searchResults.length > 0) {
 
-                this.element.querySelector('.focus-wrap').focus();
+                //this.element.querySelector('.focus-wrap').focus();
             }
         }
     }
@@ -125,12 +127,19 @@ export default class SearchMain extends CachedComponent {
         const { searchResults, loading, currentPage, searchStr } = this.state;
         const pResults = new PaginatorArray(searchResults);
         const totalPages = pResults.getTotalPages(this.pageSize);
+        
         return (
             <div>
                 <Loading open={loading} />
                 <Search searchStr={searchStr} onDownKeyPressed={this.handleDownKeyPress} searchRef={this.linkSearchRef} onSubmit={this.onSearchSubmit} loading={loading} />
-                
-                <Grid className='search-results'>
+                <div className="paginator">
+                    <Paginator items={searchResults} pageSize={4} columns={4}>
+                        <Paginator.Paginate className='results'>
+                            <SearchResultsItem  onItemClick={this.handleItemClick} parentRef={this.linkElement} loading={loading} />
+                        </Paginator.Paginate>
+                    </Paginator>
+                </div>
+                {/* <Grid className='search-results'>
                     <Grid.Column width={2} verticalAlign='middle' className='paginator-left'>
                         <PaginatorButton backward floated='left' onClick={this.prevPage} style={{ 'display': currentPage === 1 ? 'none' : 'block' }} />
                     </Grid.Column>
@@ -140,11 +149,13 @@ export default class SearchMain extends CachedComponent {
                     <Grid.Column width={2} verticalAlign='middle' className='paginator-right'>
                         {searchResults.length > 0 && <PaginatorButton forward floated='right' onClick={this.nextPage} style={{ 'display': currentPage === totalPages ? 'none' : 'block' }} />}
                     </Grid.Column>
-                </Grid>
+                </Grid> */}
                 
             </div >
         )
     }
 }
+
+
 
 

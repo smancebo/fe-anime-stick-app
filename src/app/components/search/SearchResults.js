@@ -35,27 +35,18 @@ export default class SearchResults extends React.Component {
         
     }
 
-    navigate(e) {
-        const children = this.elResults
-                         .querySelector('.ui.grid').children;
-
-        KeyBoardNavigation.navigate(children, e, '.focus-wrap');
-        this.setState({
-            "selected": KeyBoardNavigation.index
-        })
- 
-    }
+  
     searchFocus() {
         this.props.searchFocus();  
     }
 
     render() {
-        const { results, loading, currentPage, pageSize } = this.props;
+        const { items: results, loading, currentPage, pageSize } = this.props;
         const { selected } = this.state
         const pResults = new PaginatorArray(results);
 
         return (
-            <div className='results' ref={this.linkElement} onKeyDown={this.navigate} onFocus={this.handleFocus} >
+            <div className='results' ref={this.linkElement} onFocus={this.handleFocus} >
                 <Loading loading={loading} />
                 <Transition.Group as={Grid} duration={500} animation='scale'>
                     {pResults.paginate(currentPage, pageSize).map((found, i) => (

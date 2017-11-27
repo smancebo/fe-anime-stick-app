@@ -9,6 +9,8 @@ import PaginatorButton from '../shared/PaginatorButton';
 import PaginatorArray from '../shared/PaginatorArray';
 import KeyBoardNavigation from '../shared/KeyBoardNavigation';
 import CachedComponent from '../shared/CachedComponent';
+import Paginator from '../shared/Paginator';
+import EpisodeListItem from './EpisodeListItem';
 
 export default class EpisodeMain extends CachedComponent {
 
@@ -116,8 +118,13 @@ export default class EpisodeMain extends CachedComponent {
                         <ShowDescription image={show.image} title={show.title} />
                     </Grid.Column>
                     <Grid.Column width={12} >
+                        <Paginator items={episodes} columns={4} pageSize={24} >
+                            <Paginator.Paginate className='episode-list-container'>
+                                <EpisodeListItem onEpisodeClick={this.handleEpisodeClick} />
+                            </Paginator.Paginate>
+                        </Paginator>
 
-                        <Grid>
+                        {/* <Grid>
                             <Grid.Column width={2} verticalAlign='middle' className='paginator-left'>
                                 <PaginatorButton backward floated='left' onClick={this.prevPage} style={{ 'display': currentPage === 1 ? 'none' : 'block' }} />
                             </Grid.Column>
@@ -129,7 +136,7 @@ export default class EpisodeMain extends CachedComponent {
                             <Grid.Column width={2} verticalAlign='middle' className='paginator-right'>
                                 <PaginatorButton forward floated='right' onClick={this.nextPage} style={{ 'display': currentPage === totalPages ? 'none' : 'block' }} />
                             </Grid.Column>
-                        </Grid>
+                        </Grid> */}
 
 
                     </Grid.Column>

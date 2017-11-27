@@ -50,7 +50,8 @@ body {
 
 
 .found-result .wrapper {
-    background-color: #222
+    background-color: #222;
+    border-radius: 10px
 }
 
 .found-result a {
@@ -66,7 +67,7 @@ body {
 .episode-list-container {
     background-color: #1b1c1d;
     border-radius: 10px;
-    padding: 50px;
+    padding: 50px !important;
     max-height: 500px;
     min-height: 500px;
     overflow: hidden;
@@ -118,4 +119,8 @@ body {
 }
 .paginator-left {
     padding-left: 30px !important
+}
+
+.paginator {
+    padding-top: 5% 
 }

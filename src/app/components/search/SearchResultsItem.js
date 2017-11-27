@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Image } from 'semantic-ui-react';
+import { Image, Transition } from 'semantic-ui-react';
 import config from '../../config/config';
 // import {withRouter} from 'react-router';
 
@@ -47,14 +47,16 @@ class SearchResultItem extends React.Component {
         }
 
         return (
-            <div className='found-result' >
-                <a href="/search" className='focus-wrap' ref={this.handleRef} onClick={this.handleClick}  >
-                    <div className='wrapper'>
-                        <Image src={`${config.API}/image/${this.props.image}`} rounded />
-                    </div>
-                    <p title={title}>{title.substring(0, 30)}</p>
-                </a>
-            </div>
+            
+                <div className='found-result' >
+                    <a href="/search" className='focus-wrap' ref={this.handleRef} onClick={this.handleClick}  >
+                        <div className='wrapper'>
+                            <Image src={`${config.API}/image/${this.props.image}`} rounded />
+                        </div>
+                        <p title={title}>{title.substring(0, 30)}</p>
+                    </a>
+                </div>
+            
         )
 
     }

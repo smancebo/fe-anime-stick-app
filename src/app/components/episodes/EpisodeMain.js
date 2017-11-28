@@ -16,19 +16,16 @@ export default class EpisodeMain extends CachedComponent {
 
     constructor(props) {
         super(props);
-        this.pageSize = 24;
         this.handleEpisodeClick = this.handleEpisodeClick.bind(this);
-        this.linkEpisodes = this.linkEpisodes.bind(this);
-        this.nextPage = this.nextPage.bind(this);
-        this.prevPage  = this.prevPage.bind(this);
-        this.reset = this.reset.bind(this);
+        this.onNextPage = this.onNextPage.bind(this)
+        this.onBackPage = this.onBackPage.bind(this)
     }
 
     state = {
         episodes: [],
         loading: false,
-        currentPage: 1,
-        selectedEpisode: 0
+        selectedEpisode: 0,
+        currentPage: 1
     }
 
     componentDidMount(){
@@ -42,83 +39,52 @@ export default class EpisodeMain extends CachedComponent {
             const {selectedEpisode} = this.state;
             KeyBoardNavigation.index = selectedEpisode;
         }
-        
-        
-        
     }
 
     
     async handleEpisodeClick(name, link, target) {
 
         const { history } = this.props;
-        this.setState({ loading: true });
+        this.setState({ loading: true, selectedEpisode: KeyBoardNavigation.index });
+        
         const { data: videoLink } = await Api.getVideo(link);
-        this.setState({ loading: false, selectedEpisode: KeyBoardNavigation.index});
+        
+        this.setState({ loading: false});
         this.saveCache();
         history.push('/view', {
             url: videoLink.url
         });
-
-
-    }
-   
-
-    linkEpisodes(elemRef) {
-        this.dvEpisodes = elemRef;
-        console.log(elemRef)
     }
 
-    reset() {
-        if (this.dvEpisodes) {
-            if (this.dvEpisodes.querySelector('.episode-link'))
-            {
-                this.dvEpisodes.querySelector('.episode-link').focus()
-            }
-                
-        }
-
-        KeyBoardNavigation.reset();
-
-
-    }
-    nextPage() {
-        const { location: { state: show } } = this.props
-        const { episodes } = show;
-
-        const { currentPage } = this.state;
-        const pResults = new PaginatorArray(episodes);
-
-
-        if (currentPage < pResults.getTotalPages(this.pageSize)) {
-            this.setState({ 'currentPage': currentPage + 1 });
-           
-        }
+    onNextPage(currentPage){
+        this.setState({currentPage})
     }
 
-    prevPage() {
-        const { currentPage } = this.state;
-
-        if (currentPage > 0) {
-            this.setState({ 'currentPage': currentPage - 1 });
-            
-        }
+    onBackPage(currentPage){
+        this.setState({currentPage})
     }
 
     render() {
         const { location: { state: show } } = this.props
         const { episodes } = show;
-        const { loading, currentPage } = this.state;
-        const totalPages = new PaginatorArray(episodes).getTotalPages(this.pageSize);
+        const { loading, selectedEpisode, currentPage } = this.state;
+       
 
         return (
-            <div>
+            <div className="paginator" >
                 <Loading open={loading} />
                 <Grid>
-                    <Grid.Column width={4} >
+                    <Grid.Column width={4} textAlign='center' >
                         <ShowDescription image={show.image} title={show.title} />
                     </Grid.Column>
                     <Grid.Column width={12} >
-                        <Paginator items={episodes} columns={4} pageSize={24} >
+                        <Paginator items={episodes} 
+                                   OnNext 
+                                   columns={4} 
+                                   onNextPage={this.onNextPage}
+                                   onBackPage={this.onBackPage}
+                                   selectedPage={currentPage}
+                                   pageSize={24} selectedElement={selectedEpisode} >
                             <Paginator.Paginate className='episode-list-container'>
                                 <EpisodeListItem onEpisodeClick={this.handleEpisodeClick} />
                             </Paginator.Paginate>

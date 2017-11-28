@@ -7,29 +7,35 @@ import KeyBoardNavigation from './KeyBoardNavigation'
 
 
 const paginatorItem = (props) => {
-    const { items, children: Paginator, pageSize, currentPage, columns, selectedElement, className } = props;
+    const { items, children: Paginator, pageSize, currentPage, columns, selectedElement, className, animated } = props;
     const pItems = new PaginatorArray(items);
     const totalPages = pItems.getTotalPages(pageSize);
     const { children: PageItem } = Paginator.props
     const paginated = [].concat(pItems.paginate(currentPage, pageSize));
+    let animatedProps = {};
+
+    let ParentComponent = Grid
+    if(animated){
+        ParentComponent = Transition.Group
+        animatedProps = { animation: 'scale', duration: 500, as: Grid }   
+    }
     return (
-
-       
-        <Transition.Group as={Grid} duration={500} animation='scale' className={className}>
-
+        
+       <ParentComponent {...animatedProps} className={className} >
             {paginated.map((child, i) =>
                 (
                     <Grid.Column width={columns} key={child.id} textAlign='center'>
                         <div>
                             {/* {React.cloneElement(PageItem, { ...child, selected: i === position ? true : false })} */}
-                            <PageItem.type {...child } {...PageItem.props} selected={ i === selectedElement ? true : false} />
+                            <PageItem.type
+                                {...child }
+                                {...PageItem.props}
+                                selected={i === selectedElement ? true : false} />
                         </div>
                     </Grid.Column>
                 )
             )}
-
-        </Transition.Group>
-
+       </ParentComponent>
     )
 }
 
@@ -46,29 +52,52 @@ class Paginator extends React.Component {
         }
     }
     componentDidMount(){
-        if(this.props.columns){
-            KeyBoardNavigation.setColumns(this.props.columns)
+        const { selectedElement, columns, currentPage } = this.props;
+        
+        if(columns){
+            KeyBoardNavigation.setColumns(columns)
+        }
+        if (currentPage) {
+            this.setState({ currentPage });
         }
     }
 
+    componentWillReceiveProps(newProps){
+        const { selectedElement, selectedPage } = newProps;
+        if (selectedElement) {
+            this.setState({ selectedElement })
+            KeyBoardNavigation.index = selectedElement;
+        }
+        if(selectedPage){
+            this.setState({currentPage: selectedPage})
+        }
+        
+    }
     
     nextPage() {
         const { currentPage } = this.state;
-        const { items } = this.props;
+        const { items, onNextPage } = this.props;
         const pResults = new PaginatorArray(items);
 
 
         if (currentPage < pResults.getTotalPages(this.props.pageSize)) {
-            this.setState({ 'currentPage': currentPage + 1 });
-            this.forceUpdate();
+            let newPage = currentPage + 1;;
+            this.setState({ 'currentPage': newPage});
+            if(onNextPage) {
+                onNextPage(currentPage)
+            }
         }
     }
 
     prevPage() {
         const { currentPage } = this.state;
-
+        const {onBackPage} = this.props;
+        let newPage = currentPage - 1;
         if (currentPage > 0) {
-            this.setState({ 'currentPage': currentPage - 1 });
+            this.setState({ 'currentPage': newPage});
+            if(onBackPage){
+                onBackPage(newPage);
+            }
 
         }
     }

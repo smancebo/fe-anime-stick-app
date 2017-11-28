@@ -133,7 +133,7 @@ export default class SearchMain extends CachedComponent {
                 <Loading open={loading} />
                 <Search searchStr={searchStr} onDownKeyPressed={this.handleDownKeyPress} searchRef={this.linkSearchRef} onSubmit={this.onSearchSubmit} loading={loading} />
                 <div className="paginator">
-                    <Paginator items={searchResults} pageSize={4} columns={4}>
+                    <Paginator items={searchResults} pageSize={4} columns={4} animated>
                         <Paginator.Paginate className='results'>
                             <SearchResultsItem  onItemClick={this.handleItemClick} parentRef={this.linkElement} loading={loading} />
                         </Paginator.Paginate>

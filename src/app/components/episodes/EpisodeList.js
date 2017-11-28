@@ -1,6 +1,6 @@
 import React from 'react';
 import EpisodeListItem from './EpisodeListItem';
-import {Grid, Transition} from 'semantic-ui-react';
+import {Grid} from 'semantic-ui-react';
 import PaginatorArray from '../shared/PaginatorArray';
 
 export default class EpisodeList extends React.Component {

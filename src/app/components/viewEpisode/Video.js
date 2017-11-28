@@ -1,8 +1,12 @@
 import React from 'react';
-import videojs from 'video.js';
-import 'video.js/dist/video-js.min.css';
+// import videojs from 'video.js';
+// import 'videojs-overlay/dist/videojs-overlay.min.js';
+// import overlay from 'videojs-overlay';
+// import 'video.js/dist/video-js.min.css';
+import 'video-react/dist/video-react.css';
+import { Player, LoadingSpinner, ControlBar } from 'video-react';
 import Loading from '../shared/Loading';
-import {Button} from 'semantic-ui-react';
+
 
 
 export default class Video extends React.Component {
@@ -11,14 +15,17 @@ export default class Video extends React.Component {
         super(props);
         this.playVideo = this.playVideo.bind(this);
         this.bindVideo = this.bindVideo.bind(this);
+        this.videoChangeState = this.videoChangeState.bind(this);
         this.state = {
             loading: true,
             canPlay: false
         }
+        
     }
 
 
     componentWillUnmount() {
+
         if (this.player) {
             //this.player.dispose();
         }
@@ -28,9 +35,9 @@ export default class Video extends React.Component {
 
         if (this.player) {
             this.setState({ loading: false, canPlay: true });
-           
+
             this.player.play();
-            
+
         }
     }
 
@@ -38,9 +45,21 @@ export default class Video extends React.Component {
 
 
     }
-    bindVideo() {
-        this.player = videojs(this.videoNode, this.props);
-        
+    videoChangeState(state, prevState){
+        const { hasStarted } = state;
+        const {loading} = this.state;
+        if (loading && hasStarted){
+            this.setState({ loading: false, canPlay: true });
+            this.player.toggleFullscreen();
+        }
+    }
+    bindVideo(videoNode) {
+        if(videoNode){
+            this.player = videoNode;
+            this.player.subscribeToStateChange(this.videoChangeState);
+            
+        }
+
     }
 
     render() {
@@ -51,23 +70,17 @@ export default class Video extends React.Component {
             <div>
                 <Loading open={loading} />
 
-                <div data-vjs-player style={{ display: canPlay ? 'block' : 'none' }}>
-                    {videoLink &&
-                        
-                            <video  ref={node => this.videoNode = node}
-                                controls
-                                autoPlay
-                                preload="auto"
-                                data-setup="{}"
-                                onCanPlay={this.playVideo}
-                                onLoadedMetadata={this.bindVideo}
-                                className='video-js episode-video' >
-    
-                                <source src={videoLink} type='video/mp4' />
-                                {/* {this.bindVideo()} */}
-                            </video>}
+                <div style={{ display: canPlay ? 'block' : 'none' }}>
+                    {
+                        videoLink &&
+                        <Player fluid={false} width={1920} height={1080} ref={this.bindVideo} autoPlay  preload='metadata'>
+                            <source src={videoLink} type='video/mp4' />
+                            <LoadingSpinner/>
+                            <ControlBar autoHide={true} />
+                        </Player>
+                    }
                 </div>
-                {canPlay &&<Button onClick={this.player.requestFullscreen()}>Go FullScreen</Button>}
+
             </div>
         )
     }

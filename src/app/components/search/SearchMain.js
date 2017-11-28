@@ -1,20 +1,24 @@
 import React from 'react'
 import Search from './Search';
-import SearchResults from './SearchResults'
+
 import Api from '../../Services/Api';
 import config from '../../config/config';
 import KeyBoardNavigation from '../shared/KeyBoardNavigation';
 import Loading from '../shared/Loading';
 import PaginatorArray from '../shared/PaginatorArray';
-import PaginatorButton from '../shared/PaginatorButton';
-import {Grid} from 'semantic-ui-react';
+
+
 import CachedComponent from '../shared/CachedComponent'
 import Paginator from '../shared/Paginator'
 import SearchResultsItem from './SearchResultsItem';
+import {connect} from 'react-redux';
+import {Toolbar} from '../../../actions/index'
+
+
 
 let state = { searchResults: [], loading: false, currentPage: 1, searchStr: '' };
 
-export default class SearchMain extends CachedComponent {
+ class SearchMain extends CachedComponent {
 
     constructor(props) {
         super(props);
@@ -124,9 +128,7 @@ export default class SearchMain extends CachedComponent {
 
     render() {
 
-        const { searchResults, loading, currentPage, searchStr } = this.state;
-        const pResults = new PaginatorArray(searchResults);
-        const totalPages = pResults.getTotalPages(this.pageSize);
+        const { searchResults, loading, searchStr } = this.state;
         
         return (
             <div>
@@ -139,6 +141,8 @@ export default class SearchMain extends CachedComponent {
                         </Paginator.Paginate>
                     </Paginator>
                 </div>
+                <button type='button' onClick={() => this.props.hideToolbar()}>hide</button>
+                <button type='button' onClick={() => this.props.showToolbar()}>show</button>
                 {/* <Grid className='search-results'>
                     <Grid.Column width={2} verticalAlign='middle' className='paginator-left'>
                         <PaginatorButton backward floated='left' onClick={this.prevPage} style={{ 'display': currentPage === 1 ? 'none' : 'block' }} />
@@ -155,6 +159,9 @@ export default class SearchMain extends CachedComponent {
         )
     }
 }
+
+
+export default connect(null, { hideToolbar: Toolbar.hideToolbar, showToolbar: Toolbar.showToolbar})(SearchMain)
 
 
 

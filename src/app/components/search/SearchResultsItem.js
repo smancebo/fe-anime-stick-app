@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Image, Transition } from 'semantic-ui-react';
+import { Image } from 'semantic-ui-react';
 import config from '../../config/config';
 // import {withRouter} from 'react-router';
 

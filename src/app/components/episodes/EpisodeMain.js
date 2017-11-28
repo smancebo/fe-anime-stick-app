@@ -1,12 +1,11 @@
 import React from 'react';
 import ShowDescription from './ShowDescription';
-import EpisodeListContainer from './EpisodeListContainer';
+
 
 import { Grid } from 'semantic-ui-react';
 import Loading from '../shared/Loading';
 import Api from '../../Services/Api';
-import PaginatorButton from '../shared/PaginatorButton';
-import PaginatorArray from '../shared/PaginatorArray';
+
 import KeyBoardNavigation from '../shared/KeyBoardNavigation';
 import CachedComponent from '../shared/CachedComponent';
 import Paginator from '../shared/Paginator';
@@ -30,7 +29,7 @@ export default class EpisodeMain extends CachedComponent {
 
     componentDidMount(){
         const {history : {action}} = this.props;
-        const { location: { state: show } } = this.props
+        
         if(action === 'PUSH') {
             this.clearCache();
             KeyBoardNavigation.index = 0;
@@ -44,7 +43,7 @@ export default class EpisodeMain extends CachedComponent {
     
     async handleEpisodeClick(name, link, target) {
 
-        const { history } = this.props;
+        const { history, location: { state: show } } = this.props;
         this.setState({ loading: true, selectedEpisode: KeyBoardNavigation.index });
         
         const { data: videoLink } = await Api.getVideo(link);
@@ -52,7 +51,9 @@ export default class EpisodeMain extends CachedComponent {
         this.setState({ loading: false});
         this.saveCache();
         history.push('/view', {
-            url: videoLink.url
+            url: videoLink.url,
+            title: show.title,
+            episode: name
         });
     }
 
@@ -79,7 +80,7 @@ export default class EpisodeMain extends CachedComponent {
                     </Grid.Column>
                     <Grid.Column width={12} >
                         <Paginator items={episodes} 
-                                   OnNext 
+                                    
                                    columns={4} 
                                    onNextPage={this.onNextPage}
                                    onBackPage={this.onBackPage}

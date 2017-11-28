@@ -2,15 +2,23 @@ import React from 'react';
 import {Segment, Menu, Icon} from 'semantic-ui-react';
 import {Link, Route} from 'react-router-dom';
 import {withRouter} from 'react-router';
+import {connect} from 'react-redux';
 
  
 
 class MainMenu extends React.Component
 {
+    constructor(props){
+        super(props);
+        this.state = {
+            show: true
+        }
+    }
     render(){
-        const {location} = this.props;
+        const {location, show} = this.props;
+       
         return (
-           
+            show &&
             <Segment inverted>
                 <Route />
                 <Menu inverted secondary>
@@ -29,4 +37,12 @@ class MainMenu extends React.Component
     }
 } 
 
-export default withRouter(MainMenu);
+function mapStateToProps(state){
+    console.log(state);
+    return {
+        show: state.Toolbar.show
+    }
+}
+
+export default withRouter(connect(mapStateToProps)(MainMenu));
+//export default connect(mapStateToProps)(MainMenu);

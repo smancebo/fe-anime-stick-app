@@ -5,18 +5,25 @@ export default class ViewEpisodeMain extends React.Component
 {
 
     state = {
-        videoLink: ''
+        videoLink: '',
+        title: '',
+        episode: ''
     }
     componentDidMount() {
         const {location : {state : video}} = this.props;
-       this.setState({videoLink: video.url});
+        const {url: videoLink, title, episode} = video
+       this.setState({videoLink, title, episode});
     }
 
     render(){
-        const {videoLink} = this.state;
+        const {videoLink, title, episode} = this.state;
 
         return (
-            <Video videoLink={videoLink} />
+            <div>
+                {/* <h3>{title}</h3>
+                <h4>{episode}</h4> */}
+                <Video videoLink={videoLink} title episode />
+            </div>
         )
     }
 }

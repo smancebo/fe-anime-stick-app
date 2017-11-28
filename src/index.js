@@ -5,7 +5,11 @@ import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 import Main from './app/main'
+import { Provider } from 'react-redux';
+import { createStore } from 'redux'
+import reducers from './reducers';
 
+const store = createStore(reducers);
 
 class App extends React.Component {
     render() {
@@ -23,7 +27,9 @@ class App extends React.Component {
 //==================
 
 ReactDOM.render(<BrowserRouter>
-    <App></App>
+    <Provider store={store}>
+        <App></App>
+    </Provider>
 </BrowserRouter>,
     document.getElementById('root'));
 

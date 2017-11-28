@@ -9,7 +9,7 @@ import KeyBoardNavigation from './KeyBoardNavigation'
 const paginatorItem = (props) => {
     const { items, children: Paginator, pageSize, currentPage, columns, selectedElement, className, animated } = props;
     const pItems = new PaginatorArray(items);
-    const totalPages = pItems.getTotalPages(pageSize);
+    
     const { children: PageItem } = Paginator.props
     const paginated = [].concat(pItems.paginate(currentPage, pageSize));
     let animatedProps = {};
@@ -52,7 +52,7 @@ class Paginator extends React.Component {
         }
     }
     componentDidMount(){
-        const { selectedElement, columns, currentPage } = this.props;
+        const { columns, currentPage } = this.props;
         
         if(columns){
             KeyBoardNavigation.setColumns(columns)
@@ -69,6 +69,7 @@ class Paginator extends React.Component {
             KeyBoardNavigation.index = selectedElement;
         }
         if(selectedPage){
+        
             this.setState({currentPage: selectedPage})
         }
         
@@ -84,7 +85,7 @@ class Paginator extends React.Component {
             let newPage = currentPage + 1;;
             this.setState({ 'currentPage': newPage});
             if(onNextPage) {
-                onNextPage(currentPage)
+                onNextPage(newPage)
             }
         }
     }

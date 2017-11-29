@@ -4,7 +4,7 @@ import React from 'react';
 // import overlay from 'videojs-overlay';
 // import 'video.js/dist/video-js.min.css';
 import 'video-react/dist/video-react.css';
-import { Player, LoadingSpinner, ControlBar } from 'video-react';
+import { Player, LoadingSpinner, ControlBar, BigPlayButton } from 'video-react';
 import Loading from '../shared/Loading';
 
 
@@ -46,11 +46,13 @@ export default class Video extends React.Component {
 
     }
     videoChangeState(state, prevState){
-        const { hasStarted } = state;
+        const { hasStarted, readyState, duration } = state;
         const {loading} = this.state;
-        if (loading && hasStarted){
+        
+        if (loading && duration > 0){
             this.setState({ loading: false, canPlay: true });
             this.player.toggleFullscreen();
+            this.player.video.video.click();
         }
     }
     bindVideo(videoNode) {
@@ -73,10 +75,11 @@ export default class Video extends React.Component {
                 <div style={{ display: canPlay ? 'block' : 'none' }}>
                     {
                         videoLink &&
-                        <Player fluid={false} width={1920} height={1080} ref={this.bindVideo} autoPlay  preload='metadata'>
+                        <Player fluid={false} width={1920} height={1080} ref={this.bindVideo}   preload='metadata'>
                             <source src={videoLink} type='video/mp4' />
                             <LoadingSpinner/>
                             <ControlBar autoHide={true} />
+                            <BigPlayButton position="center" />
                         </Player>
                     }
                 </div>

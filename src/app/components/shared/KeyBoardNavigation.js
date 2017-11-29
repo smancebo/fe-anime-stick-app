@@ -15,6 +15,7 @@ class KeyBoardNavigation extends EventEmitter {
                 if (this.index >= childrens) {
                     this.index = childrens - 1;
                 } 
+                event.preventDefault();
                 return;
             }
 
@@ -24,6 +25,7 @@ class KeyBoardNavigation extends EventEmitter {
                 if (this.index <= 0) {
                     this.index = 0;
                 } 
+                event.preventDefault();
                 return;
             }
 

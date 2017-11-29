@@ -12,8 +12,7 @@ const reducer = (state = {show: true}, action) => {
         case SHOW_TOOLBAR:
             newState = { ...state, show: action.show }
             return newState;
-        return;
-
+    
         default: 
             return state;
     }

@@ -1,7 +1,9 @@
 import React from 'react';
 import Video from './Video';
+import { connect } from 'react-redux';
+import { hideToolbar, showToolbar } from '../../../actions/toolbar'
 
-export default class ViewEpisodeMain extends React.Component
+class ViewEpisodeMain extends React.Component
 {
 
     state = {
@@ -13,6 +15,11 @@ export default class ViewEpisodeMain extends React.Component
         const {location : {state : video}} = this.props;
         const {url: videoLink, title, episode} = video
        this.setState({videoLink, title, episode});
+       this.props.hideToolbar();
+    }
+
+    componentWillUnmount(){
+        this.props.showToolbar();
     }
 
     render(){
@@ -22,8 +29,10 @@ export default class ViewEpisodeMain extends React.Component
             <div>
                 {/* <h3>{title}</h3>
                 <h4>{episode}</h4> */}
-                <Video videoLink={videoLink} title episode />
+                <Video videoLink={videoLink} title={title} episode={episode} />
             </div>
         )
     }
 }
+
+export default connect(null, {hideToolbar, showToolbar})(ViewEpisodeMain)

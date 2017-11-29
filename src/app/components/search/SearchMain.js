@@ -11,8 +11,7 @@ import PaginatorArray from '../shared/PaginatorArray';
 import CachedComponent from '../shared/CachedComponent'
 import Paginator from '../shared/Paginator'
 import SearchResultsItem from './SearchResultsItem';
-import {connect} from 'react-redux';
-import {Toolbar} from '../../../actions/index'
+
 
 
 
@@ -131,7 +130,7 @@ let state = { searchResults: [], loading: false, currentPage: 1, searchStr: '' }
         const { searchResults, loading, searchStr } = this.state;
         
         return (
-            <div>
+            <div className='content'>
                 <Loading open={loading} />
                 <Search searchStr={searchStr} onDownKeyPressed={this.handleDownKeyPress} searchRef={this.linkSearchRef} onSubmit={this.onSearchSubmit} loading={loading} />
                 <div className="paginator">
@@ -141,27 +140,13 @@ let state = { searchResults: [], loading: false, currentPage: 1, searchStr: '' }
                         </Paginator.Paginate>
                     </Paginator>
                 </div>
-                <button type='button' onClick={() => this.props.hideToolbar()}>hide</button>
-                <button type='button' onClick={() => this.props.showToolbar()}>show</button>
-                {/* <Grid className='search-results'>
-                    <Grid.Column width={2} verticalAlign='middle' className='paginator-left'>
-                        <PaginatorButton backward floated='left' onClick={this.prevPage} style={{ 'display': currentPage === 1 ? 'none' : 'block' }} />
-                    </Grid.Column>
-                    <Grid.Column width={12} textAlign='center'>
-                        <SearchResults currentPage={currentPage} pageSize={this.pageSize} onItemClick={this.handleItemClick} searchFocus={this.searchFocus} parentRef={this.linkElement} results={searchResults} loading={loading} />
-                    </Grid.Column>
-                    <Grid.Column width={2} verticalAlign='middle' className='paginator-right'>
-                        {searchResults.length > 0 && <PaginatorButton forward floated='right' onClick={this.nextPage} style={{ 'display': currentPage === totalPages ? 'none' : 'block' }} />}
-                    </Grid.Column>
-                </Grid> */}
-                
             </div >
         )
     }
 }
 
 
-export default connect(null, { hideToolbar: Toolbar.hideToolbar, showToolbar: Toolbar.showToolbar})(SearchMain)
+export default SearchMain
 
 
 

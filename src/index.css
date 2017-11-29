@@ -124,3 +124,13 @@ body {
 .paginator {
     padding-top: 5% 
 }
+
+.toolbar
+{
+    transition: all 200ms ease-out;
+    background-color: #1b1c1d;
+}
+
+.content{
+    padding-top: 30px
+}

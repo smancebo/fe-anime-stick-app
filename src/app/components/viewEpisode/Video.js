@@ -75,7 +75,7 @@ export default class Video extends React.Component {
                 <div style={{ display: canPlay ? 'block' : 'none' }}>
                     {
                         videoLink &&
-                        <Player fluid={false} width={1920} height={1080} ref={this.bindVideo}   preload='metadata'>
+                        <Player fluid={false} width={1920} height={1080} ref={this.bindVideo} autoPlay   preload='metadata'>
                             <source src={videoLink} type='video/mp4' />
                             <LoadingSpinner/>
                             <ControlBar autoHide={true} />

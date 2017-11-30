@@ -52,7 +52,7 @@ class Search extends React.Component {
             <div>
                 <Container textAlign='center' >
                     <Form onSubmit={this.onSubmit}>
-                        <Input value={searchValue} onKeyDown={this.handleKeyDown}  ref={this.linkTextRef} onChange={this.handleInputChange} inverted icon={loading ? <Icon name='circle notched' loading circular inverted />  : <Icon name='search' inverted circular />} />
+                        <Input value={searchValue} onKeyDown={this.handleKeyDown} onBlur={this.onSubmit} ref={this.linkTextRef} onChange={this.handleInputChange} inverted icon={loading ? <Icon name='circle notched' loading circular inverted />  : <Icon name='search' inverted circular />} />
                     </Form>
                 </Container>
             </div>

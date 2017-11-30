@@ -8,46 +8,44 @@ body {
 .found-result {
     display: inline-block;
     color: white;
-    max-width: 190px;
     min-height: 530px;
     text-align: center;
+    width: 100%;
+    padding-top: 30px;
 }
 
 .found-result p {
     margin-top: 10px;
     transition: all 100ms ease-out
 }
+
 .found-result a:focus {
     outline: none !important;
-    
 }
 
 .found-result img {
-    width: 190px;
-    height: 230px;
+    width: 100%;
+    height: 410px;
     background-color: #222;
-    transition: all 100ms ease-out
+    transition: all 100ms ease-out;
 }
 
 .focus-wrap:focus img {
-   transform: scale(1.1, 1.1);
-   box-shadow: 0px 10px 10px #222
+    transform: scale(1.1, 1.1);
+    box-shadow: 0px 10px 10px #222
 }
 
 .focus-wrap:focus p {
-    margin-top: 25px
+    margin-top: 40px
 }
 
 .focus-wrap {
     margin-top: 120px;
-    
 }
 
 .search-results {
     transform: translateY(25%)
 }
-
-
 
 .found-result .wrapper {
     background-color: #222;
@@ -59,8 +57,8 @@ body {
 }
 
 .results {
-    padding-top: 20px;
-        max-height: 440px;
+        min-height: 750px;
+        max-height: 750px;
         overflow: hidden;
 }
 
@@ -69,7 +67,7 @@ body {
     border-radius: 10px;
     padding: 25px !important;
     max-height: 500px;
-    min-height: 500px;
+    min-height: 540px;
     overflow: hidden;
 }
 
@@ -84,18 +82,17 @@ body {
 }
 
 .episode-link:focus .episode {
-    transform: scale(1.2,1.2);
+    transform: scale(1.2, 1.2);
     box-shadow: 0px 0px 20px #000;
     background-color: rgb(241, 157, 55);
 }
 
-
-.episode-link:focus  {
-    outline: none 
+.episode-link:focus {
+    outline: none
 }
 
 .episode-video {
-        object-fit: contain;
+    object-fit: contain;
     max-height: 100%;
     max-width: 100%;
     position: absolute;
@@ -114,23 +111,38 @@ body {
 .page-button-padding {
     padding-top: 25%
 }
+
 .paginator-right {
     padding-right: 30px !important
 }
+
 .paginator-left {
     padding-left: 30px !important
 }
 
 .paginator {
-    padding-top: 5% 
+    padding-top: 5%
 }
 
-.toolbar
-{
+.toolbar {
     transition: all 200ms ease-out;
     background-color: #1b1c1d;
+
 }
 
-.content{
+.toolbar .menu {
+        font-size: 24px !important
+}
+
+.content {
     padding-top: 30px
 }
+
+.search-input input, .search-input .search {
+    font-size: 24px !important
+}
+
+.paginator .icon.forward, .paginator .icon.backward {
+    font-size: 30px
+}
+

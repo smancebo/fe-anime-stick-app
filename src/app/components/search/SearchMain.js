@@ -15,7 +15,7 @@ import SearchResultsItem from './SearchResultsItem';
 
 
 
-let state = { searchResults: [], loading: false, currentPage: 1, searchStr: '' };
+let state = { searchResults: [], loading: false, currentPage: 1, searchStr: '', selectedElement:0 };
 
  class SearchMain extends CachedComponent {
 
@@ -67,11 +67,15 @@ let state = { searchResults: [], loading: false, currentPage: 1, searchStr: '' }
     }
 
     searchFocus() {
+        this.setState({
+            selectedElement: 99
+        })
         this.searchRef.focus()
     }
     handleDownKeyPress() {
-        this.element.querySelector('.focus-wrap').focus();
-        KeyBoardNavigation.reset();
+        this.setState({
+            selectedElement: 0
+        })
 
 
     }
@@ -127,14 +131,14 @@ let state = { searchResults: [], loading: false, currentPage: 1, searchStr: '' }
 
     render() {
 
-        const { searchResults, loading, searchStr } = this.state;
+        const { searchResults, loading, searchStr, selectedElement } = this.state;
         
         return (
             <div className='content'>
                 <Loading open={loading} />
                 <Search searchStr={searchStr} onDownKeyPressed={this.handleDownKeyPress} searchRef={this.linkSearchRef} onSubmit={this.onSearchSubmit} loading={loading} />
                 <div className="paginator">
-                    <Paginator items={searchResults} pageSize={4} columns={4} animated>
+                    <Paginator items={searchResults} pageSize={4} columns={4}  selectedElement={selectedElement} onLastUp={this.searchFocus}>
                         <Paginator.Paginate className='results'>
                             <SearchResultsItem  onItemClick={this.handleItemClick} parentRef={this.linkElement} loading={loading} />
                         </Paginator.Paginate>

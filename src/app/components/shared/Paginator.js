@@ -9,19 +9,19 @@ import KeyBoardNavigation from './KeyBoardNavigation'
 const paginatorItem = (props) => {
     const { items, children: Paginator, pageSize, currentPage, columns, selectedElement, className, animated } = props;
     const pItems = new PaginatorArray(items);
-    
+
     const { children: PageItem } = Paginator.props
     const paginated = [].concat(pItems.paginate(currentPage, pageSize));
     let animatedProps = {};
 
     let ParentComponent = Grid
-    if(animated){
+    if (animated) {
         ParentComponent = Transition.Group
-        animatedProps = { animation: 'scale', duration: 500, as: Grid }   
+        animatedProps = { animation: 'browse', duration: 500, as: Grid }
     }
     return (
-        
-       <ParentComponent {...animatedProps} className={className} >
+
+        <ParentComponent {...animatedProps} className={className} >
             {paginated.map((child, i) =>
                 (
                     <Grid.Column width={columns} key={child.id} textAlign='center'>
@@ -35,7 +35,7 @@ const paginatorItem = (props) => {
                     </Grid.Column>
                 )
             )}
-       </ParentComponent>
+        </ParentComponent>
     )
 }
 
@@ -46,15 +46,20 @@ class Paginator extends React.Component {
         this.prevPage = this.prevPage.bind(this);
         this.nextPage = this.nextPage.bind(this);
         this.navigate = this.navigate.bind(this);
+       
+        
         this.state = {
             currentPage: 1,
             selectedElement: 0
         }
     }
-    componentDidMount(){
-        const { columns, currentPage } = this.props;
-        
-        if(columns){
+    componentDidMount() {
+        const { columns, currentPage, onLastUp } = this.props;
+
+        if (onLastUp) {
+            KeyBoardNavigation.on('onLastUp', onLastUp);
+        }
+        if (columns) {
             KeyBoardNavigation.setColumns(columns)
         }
         if (currentPage) {
@@ -62,19 +67,19 @@ class Paginator extends React.Component {
         }
     }
 
-    componentWillReceiveProps(newProps){
+    componentWillReceiveProps(newProps) {
         const { selectedElement, selectedPage } = newProps;
-        if (selectedElement) {
+        if (selectedElement !== undefined) {
             this.setState({ selectedElement })
             KeyBoardNavigation.index = selectedElement;
         }
-        if(selectedPage){
-        
-            this.setState({currentPage: selectedPage})
+        if (selectedPage) {
+
+            this.setState({ currentPage: selectedPage })
         }
-        
+
     }
-    
+
     nextPage() {
         const { currentPage } = this.state;
         const { items, onNextPage } = this.props;
@@ -83,8 +88,8 @@ class Paginator extends React.Component {
 
         if (currentPage < pResults.getTotalPages(this.props.pageSize)) {
             let newPage = currentPage + 1;;
-            this.setState({ 'currentPage': newPage});
-            if(onNextPage) {
+            this.setState({ 'currentPage': newPage });
+            if (onNextPage) {
                 onNextPage(newPage)
             }
         }
@@ -92,18 +97,30 @@ class Paginator extends React.Component {
 
     prevPage() {
         const { currentPage } = this.state;
-        const {onBackPage} = this.props;
-        let newPage = currentPage - 1;
-        if (currentPage > 0) {
-            this.setState({ 'currentPage': newPage});
-            if(onBackPage){
-                onBackPage(newPage);
-            }
+        const { onBackPage } = this.props;
+        if (currentPage > 1) {
 
+            let newPage = currentPage - 1;
+            if (currentPage > 0) {
+                this.setState({ 'currentPage': newPage });
+                if (onBackPage) {
+                    onBackPage(newPage);
+                }
+
+            }
         }
     }
     navigate(e) {
-        
+        if (e.keyCode === 227) { //backward
+            this.prevPage();
+            e.preventDefault();
+            return;
+        }
+        if (e.keyCode === 228) {
+            this.nextPage();
+            e.preventDefault();
+            return;
+        }
         KeyBoardNavigation.navigate(this.props.pageSize, e);
         this.setState({ selectedElement: KeyBoardNavigation.index });
     }

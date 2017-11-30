@@ -18,6 +18,7 @@ export default class EpisodeMain extends CachedComponent {
         this.handleEpisodeClick = this.handleEpisodeClick.bind(this);
         this.onNextPage = this.onNextPage.bind(this)
         this.onBackPage = this.onBackPage.bind(this)
+        KeyBoardNavigation.removeAllListeners();
     }
 
     state = {
@@ -74,8 +75,8 @@ export default class EpisodeMain extends CachedComponent {
         return (
             <div className="paginator" >
                 <Loading open={loading} />
-                <Grid>
-                    <Grid.Column width={4} textAlign='center' >
+                <Grid style={{marginLeft: '60px'}}>
+                    <Grid.Column width={3} textAlign='center' >
                         <ShowDescription image={show.image} title={show.title} />
                     </Grid.Column>
                     <Grid.Column width={12} >

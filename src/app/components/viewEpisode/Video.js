@@ -51,7 +51,7 @@ export default class Video extends React.Component {
         
         if (loading && duration > 0){
             this.setState({ loading: false, canPlay: true });
-            this.player.toggleFullscreen();
+            
             this.player.video.video.click();
         }
     }
@@ -59,9 +59,7 @@ export default class Video extends React.Component {
         if(videoNode){
             this.player = videoNode;
             this.player.subscribeToStateChange(this.videoChangeState);
-            
         }
-
     }
 
     render() {
@@ -75,7 +73,7 @@ export default class Video extends React.Component {
                 <div style={{ display: canPlay ? 'block' : 'none' }}>
                     {
                         videoLink &&
-                        <Player fluid={false} width={1920} height={1080} ref={this.bindVideo} autoPlay   preload='metadata'>
+                        <Player fluid={false} width={1920} height={1080} ref={this.bindVideo} autoPlay preload='metadata'>
                             <source src={videoLink} type='video/mp4' />
                             <LoadingSpinner/>
                             <ControlBar autoHide={true} />

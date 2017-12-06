@@ -1,5 +1,6 @@
 body {
-    background-color: #3d3e3f !important;
+    /* background-color: #3d3e3f !important; */
+    background: radial-gradient(#3d3e3f, #1b1c1d) !important;
     font-size: 34px !important;
     width: 1920px !important;
     height: 1080px !important;
@@ -146,3 +147,25 @@ body {
     font-size: 30px
 }
 
+.video-link:visited {
+    color: transparent
+}
+
+
+.video-link:visited {
+    color: transparent;
+}
+
+
+/* visited link */
+
+.video-link:hover {
+    color: transparent;
+}
+
+
+/* mouse over link */
+
+.video-link:active {
+    color: transparent;
+}

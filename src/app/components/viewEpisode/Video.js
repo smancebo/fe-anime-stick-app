@@ -16,11 +16,16 @@ export default class Video extends React.Component {
         this.playVideo = this.playVideo.bind(this);
         this.bindVideo = this.bindVideo.bind(this);
         this.videoChangeState = this.videoChangeState.bind(this);
+        this.handlePlayerControls = this.handlePlayerControls.bind(this);
+        this.playPauseVideo = this.playPauseVideo.bind(this);
+        this.backwardVideo = this.backwardVideo.bind(this);
+        this.fordwardVideo = this.fordwardVideo.bind(this);
+      
         this.state = {
             loading: true,
             canPlay: false
         }
-        
+
     }
 
 
@@ -45,40 +50,95 @@ export default class Video extends React.Component {
 
 
     }
-    videoChangeState(state, prevState){
-        const { hasStarted, readyState, duration } = state;
-        const {loading} = this.state;
-        
-        if (loading && duration > 0){
+    videoChangeState(state, prevState) {
+        const { duration, hasStarted } = state;
+        const { loading } = this.state;
+
+        if (loading && duration > 0) {
             this.setState({ loading: false, canPlay: true });
             
-            this.player.video.video.click();
+            
         }
+        
+        if(hasStarted){
+            this.videoHolder.querySelector('.video-react-video').focus()
+        }
+        
+        this.setState({ player: state });
     }
     bindVideo(videoNode) {
-        if(videoNode){
+        if (videoNode) {
             this.player = videoNode;
+            
             this.player.subscribeToStateChange(this.videoChangeState);
         }
     }
 
+    playPauseVideo(e) {
+        if (this.player) {
+            const { player } = this.state;
+
+            if (player.paused) {
+                this.player.play();
+            } else {
+                this.player.pause();
+            }
+        }
+    }
+    backwardVideo(e) {
+        this.seek(-10);
+    }
+
+    seek(time) {
+        if(this.player){
+            const {player : {currentTime}} = this.state;
+            this.player.video.seek(currentTime + time);
+        }
+    }
+
+    fordwardVideo(e){
+        this.seek(10);
+    }
+
+    handlePlayerControls(e) {
+        switch (e.keyCode) {
+            case 179:  //play/pause
+                this.playPauseVideo(e);
+                break;
+
+            case 227: //backward
+                this.backwardVideo(e);
+                break;
+
+            case 228: //fordward
+                this.fordwardVideo(e);
+                break;
+        }
+    }
+
+  
+
     render() {
         const { videoLink } = this.props;
-        const { loading, canPlay } = this.state;
+        const { loading, canPlay, player } = this.state;
+        
         return (
-
-            <div>
+            
+            <div ref={(elm) => { elm && (this.videoHolder = elm) }}  onKeyDown={this.handlePlayerControls}>
+               
                 <Loading open={loading} />
-
+                
                 <div style={{ display: canPlay ? 'block' : 'none' }}>
                     {
                         videoLink &&
-                        <Player fluid={false} width={1920} height={1080} ref={this.bindVideo} autoPlay preload='metadata'>
-                            <source src={videoLink} type='video/mp4' />
-                            <LoadingSpinner/>
-                            <ControlBar autoHide={true} />
-                            <BigPlayButton position="center" />
-                        </Player>
+                        
+                            <Player fluid={false} width={1920} height={1080} ref={this.bindVideo} autoPlay preload='metadata'>
+                                <source src={videoLink} type='video/mp4' />
+                                <LoadingSpinner />
+                                <ControlBar autoHide={true} />
+                                <BigPlayButton position="center" />
+                            </Player>
+                        
                     }
                 </div>
 

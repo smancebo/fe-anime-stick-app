@@ -26,7 +26,7 @@ class ViewEpisodeMain extends React.Component
         const {videoLink, title, episode} = this.state;
 
         return (
-            <div>
+            <div onKeyDown={(e) => {console.log(e)}}>
                 {/* <h3>{title}</h3>
                 <h4>{episode}</h4> */}
                 <Video videoLink={videoLink} title={title} episode={episode} />

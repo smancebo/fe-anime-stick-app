@@ -45,7 +45,7 @@ class MainMenu extends React.Component
 } 
 
 function mapStateToProps(state){
-    console.log(state);
+    
     return {
         show: state.Toolbar.show
     }

@@ -4,13 +4,19 @@ import React from 'react';
 // import overlay from 'videojs-overlay';
 // import 'video.js/dist/video-js.min.css';
 import 'video-react/dist/video-react.css';
-import { Player, LoadingSpinner, ControlBar, BigPlayButton } from 'video-react';
+import { Player, LoadingSpinner, ControlBar, BigPlayButton, Shortcut } from 'video-react';
 import Loading from '../shared/Loading';
+import classNames from 'classnames';
+import { Icon } from 'semantic-ui-react'
 
-
+const FORWARD = 'FORWARD';
+const BACKWARD = 'BACKWARD';
+const SH_PLAY_PAUSE = { keyCode: 179, handle: (player, actions) => { player.paused === true ? actions.play({ action: 'play', source: 'shortcut' }) : actions.pause({ action: 'pause', source: 'shortcut' })}}
+const SH_FORWARD = { keyCode: 228, handle: (player, actions) => { actions.forward(30, {action: 'forward-30', source:'shortcut'}) } }
+const SH_BACKWARD = { keyCode: 227, handle: (player, actions) => { actions.replay(30, {action: 'replay-30', source:'shortcut'}) } }
 
 export default class Video extends React.Component {
-
+   
     constructor(props) {
         super(props);
         this.playVideo = this.playVideo.bind(this);
@@ -25,6 +31,12 @@ export default class Video extends React.Component {
             loading: true,
             canPlay: false
         }
+
+        this.newShortCuts = [
+            SH_PLAY_PAUSE,
+            SH_FORWARD,
+            SH_BACKWARD
+        ]
 
     }
 
@@ -51,25 +63,24 @@ export default class Video extends React.Component {
 
     }
     videoChangeState(state, prevState) {
-        const { duration, hasStarted } = state;
+        const { duration } = state;
         const { loading } = this.state;
 
         if (loading && duration > 0) {
             this.setState({ loading: false, canPlay: true });
-            
-            
         }
         
-        if(hasStarted){
-            this.videoHolder.querySelector('.video-react-video').focus()
-        }
         
         this.setState({ player: state });
     }
     bindVideo(videoNode) {
         if (videoNode) {
             this.player = videoNode;
-            
+            console.log(this.player);
+            this.player.video.video.addEventListener('play', (e) => {
+                e.target.parentElement.focus();
+            })
+            this.backwardVideo();
             this.player.subscribeToStateChange(this.videoChangeState);
         }
     }
@@ -86,7 +97,9 @@ export default class Video extends React.Component {
         }
     }
     backwardVideo(e) {
-        this.seek(-10);
+        this.player.video.replay(10);
+        this.setState({ seekingTo: BACKWARD })
+        //this.seek(-10);
     }
 
     seek(time) {
@@ -97,7 +110,13 @@ export default class Video extends React.Component {
     }
 
     fordwardVideo(e){
-        this.seek(10);
+        const operation = {
+            action: 'forward-30',
+            source: 'shortcut'
+        };
+        this.player.video.forward(10, operation);
+        this.setState({seekingTo: FORWARD})
+        //this.seek(10);
     }
 
     handlePlayerControls(e) {
@@ -110,25 +129,52 @@ export default class Video extends React.Component {
                 this.backwardVideo(e);
                 break;
 
-            case 228: //fordward
+            case 228: //forward
                 this.fordwardVideo(e);
                 break;
+
+            case 66:
+                this.backwardVideo(e)
+                break;
+
+            case 78: 
+                this.fordwardVideo(e);
+                break;
+
+            default:
+                e.preventDefault();
+                break;
         }
+
     }
 
   
 
     render() {
-        const { videoLink } = this.props;
-        const { loading, canPlay, player } = this.state;
-        
+        const { videoLink, title, episode } = this.props;
+        const { loading, canPlay, player, seekingTo } = this.state;
+        const overlayClasses = classNames({
+            'video-overlay' : true,
+            'paused' : (player && player.paused) || false,
+            'seeking' : (player && player.seeking) || false,
+            'forward': (seekingTo === FORWARD && (player && player.seeking)),
+            'backward': (seekingTo === BACKWARD && (player && player.seeking))
+        })
         return (
             
-            <div ref={(elm) => { elm && (this.videoHolder = elm) }}  onKeyDown={this.handlePlayerControls}>
+            <div  ref={(elm) => { elm && (this.videoHolder = elm) }}  onKeyDown={this.handlePlayerControls}>
                
                 <Loading open={loading} />
                 
-                <div style={{ display: canPlay ? 'block' : 'none' }}>
+                <div className={overlayClasses} style={{ display: canPlay ? 'block' : 'none' }}>
+                    <div className="video-overlay-bg"></div>
+                    <div className='video-overlay-icons'>
+                        <Icon name='forward' className='forward' circular inverted />
+                        <Icon name='backward' className='backward' circular inverted />
+                    </div>
+                    <div className='video-overlay-title'>
+                        <h2>{`${title} - ${episode}`}</h2>
+                    </div>
                     {
                         videoLink &&
                         
@@ -137,6 +183,7 @@ export default class Video extends React.Component {
                                 <LoadingSpinner />
                                 <ControlBar autoHide={true} />
                                 <BigPlayButton position="center" />
+                                <Shortcut shortcuts={this.newShortCuts} />
                             </Player>
                         
                     }

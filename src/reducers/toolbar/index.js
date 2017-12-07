@@ -1,19 +1,23 @@
-import { HIDE_TOOLBAR, SHOW_TOOLBAR } from '../../constants';
+import { HIDE_TOOLBAR, SHOW_TOOLBAR, FOCUS_TOOLBAR } from '../../constants';
 
-const reducer = (state = {show: true}, action) => {
+const reducer = (state = { show: true, focus: false }, action) => {
     let newState = {};
 
-    switch(action.type){
-        
+    switch (action.type) {
+
         case HIDE_TOOLBAR:
-            newState = {...state, show: action.show}
+            newState = { ...state, show: action.show }
             return newState;
 
         case SHOW_TOOLBAR:
             newState = { ...state, show: action.show }
             return newState;
-    
-        default: 
+
+        case FOCUS_TOOLBAR:
+            newState = { ...state, focus: action.focus }
+            return newState
+
+        default:
             return state;
     }
 }

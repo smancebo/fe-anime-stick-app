@@ -75,7 +75,7 @@ export default class EpisodeMain extends CachedComponent {
         return (
             <div className="paginator" >
                 <Loading open={loading} />
-                <Grid style={{marginLeft: '60px'}}>
+                <Grid style={{marginLeft: '149px'}}>
                     <Grid.Column width={3} textAlign='center' >
                         <ShowDescription image={show.image} title={show.title} />
                     </Grid.Column>

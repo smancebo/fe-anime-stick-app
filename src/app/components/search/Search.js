@@ -40,6 +40,10 @@ class Search extends React.Component {
             this.props.onDownKeyPressed();
             e.preventDefault();
         }
+        if(e.keyCode === 38) {
+            //this.props.onUpKeyPressed && (this.props.onUpKeyPressed());
+            e.preventDefault();
+        }
 
         if(e.keyCode === 9) {
             this.onSubmit();

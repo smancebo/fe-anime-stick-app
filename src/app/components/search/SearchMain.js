@@ -11,13 +11,15 @@ import PaginatorArray from '../shared/PaginatorArray';
 import CachedComponent from '../shared/CachedComponent'
 import Paginator from '../shared/Paginator'
 import SearchResultsItem from './SearchResultsItem';
+import { focusToolbar } from '../../../actions/toolbar';
+import { connect } from 'react-redux';
 
 
 
 
-let state = { searchResults: [], loading: false, currentPage: 1, searchStr: '', selectedElement:0 };
+let state = { searchResults: [], loading: false, currentPage: 1, searchStr: '', selectedElement: 0 };
 
- class SearchMain extends CachedComponent {
+class SearchMain extends CachedComponent {
 
     constructor(props) {
         super(props);
@@ -26,6 +28,7 @@ let state = { searchResults: [], loading: false, currentPage: 1, searchStr: '', 
         this.linkSearchRef = this.linkSearchRef.bind(this);
         this.searchFocus = this.searchFocus.bind(this);
         this.handleDownKeyPress = this.handleDownKeyPress.bind(this);
+        this.handleUpKeyPressed = this.handleUpKeyPressed.bind(this);
         this.handleItemClick = this.handleItemClick.bind(this);
         this.nextPage = this.nextPage.bind(this);
         this.prevPage = this.prevPage.bind(this);
@@ -43,7 +46,7 @@ let state = { searchResults: [], loading: false, currentPage: 1, searchStr: '', 
     }
 
 
-    
+
 
     async onSearchSubmit(text) {
         if (text !== '') {
@@ -76,8 +79,9 @@ let state = { searchResults: [], loading: false, currentPage: 1, searchStr: '', 
         this.setState({
             selectedElement: 0
         })
-
-
+    }
+    handleUpKeyPressed(e) {
+        this.props.focusToolbar();
     }
     async handleItemClick(item) {
         const { history } = this.props;
@@ -132,15 +136,15 @@ let state = { searchResults: [], loading: false, currentPage: 1, searchStr: '', 
     render() {
 
         const { searchResults, loading, searchStr, selectedElement } = this.state;
-        
+
         return (
             <div className='content'>
                 <Loading open={loading} />
-                <Search searchStr={searchStr} onDownKeyPressed={this.handleDownKeyPress} searchRef={this.linkSearchRef} onSubmit={this.onSearchSubmit} loading={loading} />
+                <Search searchStr={searchStr} onDownKeyPressed={this.handleDownKeyPress} onUpKeyPressed={this.handleUpKeyPressed} searchRef={this.linkSearchRef} onSubmit={this.onSearchSubmit} loading={loading} />
                 <div className="paginator">
-                    <Paginator items={searchResults} pageSize={4} columns={4}  selectedElement={selectedElement} onLastUp={this.searchFocus}>
+                    <Paginator items={searchResults} pageSize={4} columns={4} selectedElement={selectedElement} onLastUp={this.searchFocus}>
                         <Paginator.Paginate className='results'>
-                            <SearchResultsItem  onItemClick={this.handleItemClick} parentRef={this.linkElement} loading={loading} />
+                            <SearchResultsItem onItemClick={this.handleItemClick} parentRef={this.linkElement} loading={loading} />
                         </Paginator.Paginate>
                     </Paginator>
                 </div>
@@ -150,7 +154,7 @@ let state = { searchResults: [], loading: false, currentPage: 1, searchStr: '', 
 }
 
 
-export default SearchMain
+export default connect(null, { focusToolbar })(SearchMain)
 
 
 

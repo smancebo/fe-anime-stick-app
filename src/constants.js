@@ -1,2 +1,3 @@
 export const HIDE_TOOLBAR = 'HIDE_TOOLBAR';
 export const SHOW_TOOLBAR = 'SHOW_TOOLBAR';
+export const FOCUS_TOOLBAR = 'FOCUS_TOOLBAR';

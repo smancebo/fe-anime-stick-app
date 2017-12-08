@@ -7,13 +7,14 @@ import 'video-react/dist/video-react.css';
 import { Player, LoadingSpinner, ControlBar, BigPlayButton, Shortcut } from 'video-react';
 import Loading from '../shared/Loading';
 import classNames from 'classnames';
-import { Icon } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react';
+import { playerShortcuts } from './PlayerShorcuts';
 
 const FORWARD = 'FORWARD';
 const BACKWARD = 'BACKWARD';
-const SH_PLAY_PAUSE = { keyCode: 179, handle: (player, actions) => { player.paused === true ? actions.play({ action: 'play', source: 'shortcut' }) : actions.pause({ action: 'pause', source: 'shortcut' })}}
-const SH_FORWARD = { keyCode: 228, handle: (player, actions) => { actions.forward(30, {action: 'forward-30', source:'shortcut'}) } }
-const SH_BACKWARD = { keyCode: 227, handle: (player, actions) => { actions.replay(30, {action: 'replay-30', source:'shortcut'}) } }
+
+
+
 
 export default class Video extends React.Component {
    
@@ -32,11 +33,7 @@ export default class Video extends React.Component {
             canPlay: false
         }
 
-        this.newShortCuts = [
-            SH_PLAY_PAUSE,
-            SH_FORWARD,
-            SH_BACKWARD
-        ]
+       
 
     }
 
@@ -183,7 +180,7 @@ export default class Video extends React.Component {
                                 <LoadingSpinner />
                                 <ControlBar autoHide={true} />
                                 <BigPlayButton position="center" />
-                                <Shortcut shortcuts={this.newShortCuts} />
+                                <Shortcut shortcuts={playerShortcuts} />
                             </Player>
                         
                     }

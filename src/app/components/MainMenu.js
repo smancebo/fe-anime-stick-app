@@ -28,7 +28,7 @@ class MainMenu extends React.Component
         return (
            
                
-            <div className='toolbar' ref={(elm) => { elm && (this.toolbar = elm); console.log(elm) }} style={toolbarStyle}>
+            <div className='toolbar' ref={(elm) => { elm && (this.toolbar = elm)}} style={toolbarStyle}>
                     <Segment inverted>
                         <Route />
                         <Menu inverted secondary>

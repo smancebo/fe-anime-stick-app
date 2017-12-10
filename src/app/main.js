@@ -12,7 +12,7 @@ const Main = (props) => {
 
     const login = <Login />
 
-    if(sessionStorage.getItem('auth') === true) {
+    if(true) {
         return main;
     }
     return login;

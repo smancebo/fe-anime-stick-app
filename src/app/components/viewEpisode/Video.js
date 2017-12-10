@@ -9,6 +9,7 @@ import Loading from '../shared/Loading';
 import classNames from 'classnames';
 import { Icon } from 'semantic-ui-react';
 import { playerShortcuts } from './PlayerShorcuts';
+import config from '../../config/config';
 
 const FORWARD = 'FORWARD';
 const BACKWARD = 'BACKWARD';
@@ -148,7 +149,8 @@ export default class Video extends React.Component {
   
 
     render() {
-        const { videoLink, title, episode } = this.props;
+        const { title, episode } = this.props;
+        let { videoLink } = this.props;
         const { loading, canPlay, player, seekingTo } = this.state;
         const overlayClasses = classNames({
             'video-overlay' : true,
@@ -157,6 +159,10 @@ export default class Video extends React.Component {
             'forward': (seekingTo === FORWARD && (player && player.seeking)),
             'backward': (seekingTo === BACKWARD && (player && player.seeking))
         })
+
+        if(videoLink.indexOf('openload') !== -1) {
+            videoLink = `${config.API}/watch?video=${videoLink}`;
+        }
         return (
             
             <div  ref={(elm) => { elm && (this.videoHolder = elm) }}  onKeyDown={this.handlePlayerControls}>

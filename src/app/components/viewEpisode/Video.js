@@ -38,6 +38,10 @@ export default class Video extends React.Component {
 
     }
 
+    componentDidMount() {
+        this.forceUpdate();
+    }
+
 
     componentWillUnmount() {
 

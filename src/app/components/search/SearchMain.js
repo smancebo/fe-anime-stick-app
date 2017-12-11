@@ -14,7 +14,7 @@ import SearchResultsItem from './SearchResultsItem';
 import { focusToolbar } from '../../../actions/toolbar';
 import { connect } from 'react-redux';
 
-
+const CACHE_NAME = 'searchMain';
 
 
 let state = { searchResults: [], loading: false, currentPage: 1, searchStr: '', selectedElement: 0 };
@@ -41,7 +41,7 @@ class SearchMain extends CachedComponent {
     componentDidMount() {
         this.searchRef.focus();
         KeyBoardNavigation.setColumns(4);
-        this.restoreCache();
+        this.restoreCache(CACHE_NAME);
         this.reset();
     }
 
@@ -55,7 +55,7 @@ class SearchMain extends CachedComponent {
             const { data: searchResults } = await Api.search(text);
 
             this.setState({ searchResults, loading: false, currentPage: 1, searchStr: text })
-            this.saveCache();
+            this.saveCache(CACHE_NAME);
             if (searchResults.length > 0) {
 
                 //this.element.querySelector('.focus-wrap').focus();
@@ -92,7 +92,7 @@ class SearchMain extends CachedComponent {
         const { data: episodes } = await Api.getEpisodes(link);
 
         this.setState({ loading: false });
-        this.saveCache();
+        this.saveCache(CACHE_NAME);
         history.push('/episodes', {
             image: `${config.API}/image/${image}`,
             title,

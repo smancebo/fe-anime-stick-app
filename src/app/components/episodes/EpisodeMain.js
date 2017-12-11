@@ -10,6 +10,7 @@ import KeyBoardNavigation from '../shared/KeyBoardNavigation';
 import CachedComponent from '../shared/CachedComponent';
 import Paginator from '../shared/Paginator';
 import EpisodeListItem from './EpisodeListItem';
+const CACHE_NAME = 'episodeMain';
 
 export default class EpisodeMain extends CachedComponent {
 
@@ -35,7 +36,7 @@ export default class EpisodeMain extends CachedComponent {
             this.clearCache();
             KeyBoardNavigation.index = 0;
         } else {
-            this.restoreCache();
+            this.restoreCache(CACHE_NAME);
             const {selectedEpisode} = this.state;
             KeyBoardNavigation.index = selectedEpisode;
         }
@@ -50,7 +51,7 @@ export default class EpisodeMain extends CachedComponent {
         const { data: videoLink } = await Api.getVideo(link);
         
         this.setState({ loading: false});
-        this.saveCache();
+        this.saveCache(CACHE_NAME);
         history.push('/view', {
             url: videoLink.url,
             title: show.title,

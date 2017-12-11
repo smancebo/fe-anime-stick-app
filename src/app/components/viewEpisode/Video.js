@@ -74,7 +74,9 @@ export default class Video extends React.Component {
     bindVideo(videoNode) {
         if (videoNode) {
             this.player = videoNode;
-            console.log(this.player);
+            videoNode.video.video.parentElement.focus();
+            // console.log(videoNode.video.video.parentElement);
+            // console.log(this.player);
             this.player.video.video.addEventListener('play', (e) => {
                 e.target.parentElement.focus();
             })

@@ -5,7 +5,7 @@ import { hideToolbar, showToolbar } from '../../../actions/toolbar'
 
 class ViewEpisodeMain extends React.Component
 {
-
+    
     state = {
         videoLink: '',
         title: '',
@@ -16,7 +16,10 @@ class ViewEpisodeMain extends React.Component
         const {url: videoLink, title, episode} = video
        this.setState({videoLink, title, episode});
        this.props.hideToolbar();
+       this.forceUpdate();
     }
+    
+
 
     componentWillUnmount(){
         this.props.showToolbar();

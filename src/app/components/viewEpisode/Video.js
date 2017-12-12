@@ -40,13 +40,15 @@ export default class Video extends React.Component {
 
     componentDidMount() {
         this.forceUpdate();
+       
     }
 
 
     componentWillUnmount() {
 
         if (this.player) {
-            //this.player.dispose();
+            this.player = undefined;
+            
         }
     }
 
@@ -84,7 +86,7 @@ export default class Video extends React.Component {
             this.player.video.video.addEventListener('play', (e) => {
                 e.target.parentElement.focus();
             })
-            this.backwardVideo();
+            //his.backwardVideo();
             this.player.subscribeToStateChange(this.videoChangeState);
         }
     }
@@ -155,6 +157,7 @@ export default class Video extends React.Component {
   
 
     render() {
+         alert(window.androidHost)
         const { title, episode } = this.props;
         let { videoLink } = this.props;
         const { loading, canPlay, player, seekingTo } = this.state;
@@ -169,6 +172,7 @@ export default class Video extends React.Component {
         if(videoLink.indexOf('openload') !== -1) {
             videoLink = `${config.API}/watch?video=${videoLink}`;
         }
+        
         return (
             
             <div  ref={(elm) => { elm && (this.videoHolder = elm) }}  onKeyDown={this.handlePlayerControls}>
@@ -187,7 +191,7 @@ export default class Video extends React.Component {
                     {
                         videoLink &&
                         
-                            <Player fluid={false} width={1920} height={1080} ref={this.bindVideo} autoPlay preload='metadata'>
+                            <Player fluid={false} width={1920}  height={1080} ref={this.bindVideo} autoPlay preload='metadata'>
                                 <source src={videoLink} type='video/mp4' />
                                 <LoadingSpinner />
                                 <ControlBar autoHide={true} />

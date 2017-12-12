@@ -1,5 +1,5 @@
 // const config = {
-//     "API" : "http://10.0.0.6:4000/api"
+//     "API" : "http://10.0.0.5:4000/api"
 // };
 // const config = {
 //     "API" : "http://10.172.0.167:4000/api"

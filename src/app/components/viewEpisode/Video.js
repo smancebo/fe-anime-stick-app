@@ -157,7 +157,7 @@ export default class Video extends React.Component {
   
 
     render() {
-         alert(window.androidHost)
+         
         const { title, episode } = this.props;
         let { videoLink } = this.props;
         const { loading, canPlay, player, seekingTo } = this.state;
